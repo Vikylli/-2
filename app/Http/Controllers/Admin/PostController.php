@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -42,23 +43,32 @@ class PostController extends Controller
              'tags'=>'required',
              'category_id'=>'required|integer',
              'yhumbnail'=>'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+             
          ]);
+         $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            // 
+            ]);
  
-         if ($request->hasFile('yhumbnail')) {
-             $image_name = time() . '-' .$request->image->extension();
-             $request->yhumbnail->move(public_path('images'), $image_name);
-             $path = 'storage/images/posts/' . $image_name;
+        //  if ($request->hasFile('yhumbnail')) {
+        //      $image_name = time() . '-' .$request->image->extension();
+        //      $request->yhumbnail->move(public_path('images'), $image_name);
+        //      $path = 'storage/images/posts/' . $image_name;
  
-             $validatedData['yhumbnail'] = $path;
-             $folder = date('Y-m-d');
-             $validatedData['yhumbnail'] = $request->file('yhumbnail')->store("{images/$folder}");
-         }
+        //      $validatedData['yhumbnail'] = $path;
+        //      $folder = date('Y-m-d');
+        //      $validatedData['yhumbnail'] = $request->file('yhumbnail')->store("{images/$folder}");
+        //  }
          $validatedData['views'] = 0;
  
          Post::create($validatedData);
          $post = Post::create($validatedData);
+         $data = $request->all();
+         $data['yhumbnail'] = Post::uploadImage($request);
+         $post = Post::create($data);
          $post->tags()->sync($request->tags);
-         return to_route('posts.index', $validatedData) -> with('success', 'Статья успешно создана');
+         return redirect()->route('posts.index')->with('success', 'Статья добавлена');
     }
 
     /**
@@ -74,7 +84,10 @@ class PostController extends Controller
      */
     public function edit(string $id)
     {
-        return view('admin.posts.edit');
+        $post = Post::find($id);
+         $categories = Category::pluck('title', 'id')->all();
+         $tags = Tag::pluck('title', 'id')->all();
+         return view('admin.posts.edit', compact('post', 'categories', 'tags'));
     }
 
     /**
@@ -83,8 +96,17 @@ class PostController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-           'title' => 'required'
+            'description'=>'required',
+            'content'=>'required',
+            'category_id'=>'required',
+            'yhumbnail'=>'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
+        $post = Post::find($id);
+        $data = $request->all();
+        $data['yhumbnail'] = Post::uploadImage($request, $post->yhumbnail);
+
+        $post->update($data);
+        $post->tags()->sync($request->tags);
         return to_route('posts.index')->with('success', 'Изменения сохранены');
     }
 
@@ -93,7 +115,10 @@ class PostController extends Controller
      */
     public function destroy(string $id)
     {
-        Post::destroy($id);
-        return to_route('posts.index')->with('success', 'Статья удалена');
+        $post = Post::find($id);
+         $post->tags()->sync([]);
+         Storage::delete($post->yhumbnail);
+         $post->delete();
+         return to_route('posts.index')->with('success', 'Статья удалена');
     }
 }

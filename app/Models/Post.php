@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
+use GuzzleHttp\Psr7\Request;
+use Illuminate\Support\Facades\Storage;
 
 
 class Post extends Model
@@ -29,4 +31,6 @@ class Post extends Model
             ]
             ];
     }
+
+    
 }
