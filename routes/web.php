@@ -3,6 +3,7 @@
 use App\Admin\CategoryController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\MainController;
+use App\Http\Controllers\Admin\PostController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -31,3 +32,4 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\Admin'],
     Route::resource('tags', App\Http\Controllers\Admin\TagController::class);
     Route::resource('posts', App\Http\Controllers\Admin\PostController::class);
 });
+Route::put('/posts/{id}', [PostController::class, 'update']);
