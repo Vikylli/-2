@@ -87,21 +87,37 @@ class PostController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $validated = $request->validate([
-            'description' => 'required',
-            'content' => 'required',
-            'category_id' => 'required',
-            'thumbnail' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
+      
+    $post = Post::findOrFail($id);
+
     
-        $post = Post::find($id);
-        $data = $request->except(['_token', '_method']);
+    $request->validate([
+        'title'       => 'required',
+        'description' => 'required',
+        'content'     => 'required',
+        'category_id' => 'required',
+        'thumbnail'   => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    ]);
+
+    $data = $request->all();
+
+    
+    if ($request->hasFile('thumbnail')) {
         $data['thumbnail'] = Post::uploadImage($request, $post->thumbnail);
-    
-        $post->update($validated);
-        $post->tags()->sync($request->tags);
-        return to_route('posts.index')->with('success', 'Изменения сохранены');
+    } else {
+        $data['thumbnail'] = $post->thumbnail;
     }
+
+   
+    $post->update($data);
+
+   
+    if ($request->has('tags')) {
+        $post->tags()->sync($request->tags);
+    }
+
+    return redirect()->route('posts.index')->with('success', 'Изменения сохранены');
+}
     
     
 
