@@ -126,10 +126,13 @@ class PostController extends Controller
      */
     public function destroy(string $id)
     {
-        $post = Post::find($id);
-         $post->tags()->sync([]);
-         Storage::delete($post->thumbnail);
-         $post->delete();
-         return to_route('posts.index')->with('success', 'Статья удалена');
+        $post = Post::findOrFail($id);
+
+        $post->tags()->sync([]);
+        if ($post->thumbnail && Storage::disk('public')->exists($post->thumbnail)) {
+            Storage::disk('public')->delete($post->thumbnail);
+        }
+        $post->delete();
+        return to_route('posts.index')->with('success', 'Статья удалена');
     }
 }
