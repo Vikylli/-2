@@ -113,36 +113,34 @@
                     <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
                         <div class="page-wrapper">
                             <div class="blog-custom-build">
+                                @foreach ($posts as $post )
+                                
+                              
                                 <div class="blog-box wow fadeIn">
                                     <div class="post-media">
-                                        <a href="marketing-single.html" title="">
-                                            <img src="upload/market_blog_01.jpg" alt="" class="img-fluid">
+                                       <a href="{{ route('posts.single', ['slug' => $post->slug]) }}" title="">
+                                            <img src="{{ asset('storage/app/images/' . $post->thumbnail) }}" alt="" class="img-fluid">
                                             <div class="hovereffect">
                                                 <span></span>
                                             </div>
-                                            <!-- end hover -->
                                         </a>
-                                    </div>
+                                    </div> 
+                               
                                     <!-- end media -->
                                     <div class="blog-meta big-meta text-center">
                                         <div class="post-sharing">
-                                            <ul class="list-inline">
-                                                <li><a href="#" class="fb-button btn btn-primary"><i class="fa fa-facebook"></i> <span class="down-mobile">Share on Facebook</span></a></li>
-                                                <li><a href="#" class="tw-button btn btn-primary"><i class="fa fa-twitter"></i> <span class="down-mobile">Tweet on Twitter</span></a></li>
-                                                <li><a href="#" class="gp-button btn btn-primary"><i class="fa fa-google-plus"></i></a></li>
-                                            </ul>
+                                            
                                         </div><!-- end post-sharing -->
-                                        <h4><a href="marketing-single.html" title="">You can learn how to make money with your blog and videos</a></h4>
-                                        <p>Aenean interdum arcu blandit, vehicula magna non, placerat elit. Mauris et pharetratortor. Suspendissea sodales urna. In at augue elit. Vivamus enimcerat elicerat eli nibh, maximus ac felis nec, maximus tempor odio.</p>
-                                        <small><a href="marketing-category.html" title="">Make Money</a></small>
-                                        <small><a href="marketing-single.html" title="">24 July, 2017</a></small>
-                                        <small><a href="#" title="">by Jack</a></small>
-                                        <small><a href="#" title=""><i class="fa fa-eye"></i> 2291</a></small>
+                                        <h4><a href="{{ route('posts.single', ['slug' => $post->slug]) }}"title="">{{ $post->title }}</a></h4>
+                                        {!! $post->description !!}
+                                        <small><a href="{{ route('categories.single', ['slug' => $post->category->slug]) }}" title="">{{ $post->category->title }}</a></small>
+                                        <small>{{ $post->getPostDate()}}</small>
+                                        <small><i class="fa fa-eye"></i> {{ $post->views }}</small>
                                     </div><!-- end meta -->
                                 </div><!-- end blog-box -->
 
                                 <hr class="invis">
-
+     @endforeach
                                 <div class="blog-box wow fadeIn">
                                     <div class="post-media">
                                         <a href="marketing-single.html" title="">
