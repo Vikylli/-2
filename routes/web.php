@@ -4,6 +4,7 @@ use App\Admin\CategoryController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\MainController;
 use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\PostController as ControllersPostController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -41,5 +42,8 @@ Route::post('/register', [UserController::class, 'store'])->name('register.store
 Route::get('/login', [UserController::class, 'loginForm'])->name('login.create');
 Route::post('/login', [UserController::class, 'login'])->name('login');
 Route::get('/logout', [UserController::class, 'logout'])->name('logout');
+
+Route::get('/',[PostController::class,'index'])->name('home');
+Route::get('/article',[PostController::class,'show'])->name('posts.single');
 
 
