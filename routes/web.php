@@ -45,7 +45,7 @@ Route::get('/logout', [UserController::class, 'logout'])->name('logout');
 
 Route::get('/',[App\Http\Controllers\PostController::class,'index'])->name('home');
 Route::get('/article/{slug}',[App\Http\Controllers\PostController::class,'show'])->name('posts.single');
-Route::get('/category/{slug}',[App\Http\Controllers\Admin\CategoryController::class,'show'])->name('categories.single');
-Route::get('/tag/{slug}',[App\Http\Controllers\Admin\TagController::class,'show'])->name('tags.single');
+Route::get('/category/{slug}',[App\Http\Controllers\CategoryController::class,'show'])->name('categories.single');
+Route::get('/tag/{slug}',[App\Http\Controllers\TagController::class,'show'])->name('tags.single');
 
 
