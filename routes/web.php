@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\MainController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\PostController as ControllersPostController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -48,4 +49,6 @@ Route::get('/article/{slug}',[App\Http\Controllers\PostController::class,'show']
 Route::get('/category/{slug}',[App\Http\Controllers\CategoryController::class,'show'])->name('categories.single');
 Route::get('/tag/{slug}',[App\Http\Controllers\TagController::class,'show'])->name('tags.single');
 
+
+Route::get('/search', [SearchController::class, 'index'])->name('search');
 
