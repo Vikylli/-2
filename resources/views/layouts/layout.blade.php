@@ -236,6 +236,13 @@
                   <p>Добавление тега</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="{{ route('tags.index') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Список тегов</p>
+                </a>
+              </li>
+              
              
             </ul>
           </li>
@@ -262,6 +269,12 @@
                 <a href="{{ route('categories.create') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Добавление категории</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('categories.index') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Список категории</p>
                 </a>
               </li>
               

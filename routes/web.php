@@ -4,6 +4,7 @@ use App\Admin\CategoryController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\MainController;
 use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\PostController as ControllersPostController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\UserController;
